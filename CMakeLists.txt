@@ -128,7 +128,9 @@ add_library(tinyinst STATIC
   ${platform_specific_files}
   ${cross_platform_files}
 )
-
+if(UNIX AND NOT APPLE)
+  target_link_libraries(tinyinst pthread rt)
+endif()
 target_include_directories(tinyinst PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}/third_party/obj/wkit/include
@@ -161,6 +163,10 @@ add_executable(sslhook
 
 target_link_libraries(sslhook tinyinst)
 
+if(UNIX AND NOT APPLE)
+  target_link_libraries(sslhook pthread rt)
+endif()
+
 project("litecov")
 
 add_executable(litecov
@@ -168,3 +174,7 @@ add_executable(litecov
 )
 
 target_link_libraries(litecov tinyinst)
+
+if(UNIX AND NOT APPLE)
+  target_link_libraries(litecov pthread rt)
+endif()
